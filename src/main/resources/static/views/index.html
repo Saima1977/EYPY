@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Subscription</title>
+</head>
+<body ng-app="test">
+<hr/>
+<h2>Create A Subscription</h2>
+<div class="container" ng-controller="SubscriptionController">
+  <div class="row">
+    <label>Charge Amount</label> <input type="text" ng-model="subscriptionDto.chargeAmount" class="input-sm spacing"/>
+  </div>
+  <div class="row">
+    <label>Frequency</label>
+    <select ng-model="subscriptionDto.frequency">
+      <option ng-repeat="x in frequency" value="{{x.name}}">{{x.name}}</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Day</label>
+    <select ng-cloak  ng-model="subscriptionDto.day"  ng-show="subscriptionDto.frequency == 'WEEKLY'">
+      <option ng-repeat="y in dayWeek" value="{{y.weekday}}">{{y.weekday}}</option>
+    </select>
+    <select ng-cloak ng-model="subscriptionDto.day" ng-show="subscriptionDto.frequency == 'MONTHLY'">
+      <option ng-repeat="z in dayDate" value="{{z.day}}">{{z.day}}</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Start Date</label> <input type="date" ng-model="subscriptionDto.startDate" class="input-sm spacing"/>
+  </div>
+  <div class="row">
+    <label>End Date</label> <input type="date" ng-model="subscriptionDto.endDate" class="input-sm spacing"/>
+  </div>
+  <div class="row">
+    <button ng-click="saveSubscription()" class="btn btn-sm btn-info">Save Subscription</button>
+  </div>
+  <hr/>
+  <div class="row">
+    <p>{{allSubscriptions | json}}</p>
+  </div>
+  <hr/>
+  <div class="row" ng-repeat="subscription in allSubscriptions">
+    <div class="">
+      <h5>Amount: {{subscription.chargeAmount}}</h5>
+      <h5>Subscription Type: {{subscription.frequency}}</h5>
+      <h5>Subscription Invoice Dates: <p ng-repeat="i in subscription.invoiceDateDtos">{{i.invoiceDate | date: 'dd/MM/yyyy'}}</p></h5>
+    </div>
+  </div>
+</div>
+</body>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script src="js/app/app.js"></script>
+<script src="js/app/SubscriptionController.js"></script>
+<script src="js/app/SubscriptionService.js"></script>
+<link rel="stylesheet" href="css/lib/bootstrap.min.css"/>
+<link rel="stylesheet" href="css/app/app.css"/>
+</html>
